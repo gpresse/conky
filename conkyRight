@@ -10,6 +10,11 @@
 --
 -- For more on Lua, see:
 -- https://www.lua.org/pil/contents.html
+--
+-- Custom Conky Window right Side, shows:
+-- Network Info | Filesystem Info (loop through mounted)
+--
+
 
 conky.config = {
     display = 0,
