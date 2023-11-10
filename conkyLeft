@@ -10,6 +10,10 @@
 --
 -- For more on Lua, see:
 -- https://www.lua.org/pil/contents.html
+--
+-- Custom Conky Window Left Side, shows:
+-- System Info | CPU Info (8 Cores) | RAM | Process list (top10)
+--
 
 conky.config = {
     display = 0,
