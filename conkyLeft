@@ -1,0 +1,131 @@
+-- Conky, a system monitor https://github.com/brndnmtthws/conky
+--
+-- This configuration file is Lua code. You can write code in here, and it will
+-- execute when Conky loads. You can use it to generate your own advanced
+-- configurations.
+--
+-- Try this (remove the `--`):
+--
+--   print("Loading Conky config")
+--
+-- For more on Lua, see:
+-- https://www.lua.org/pil/contents.html
+
+conky.config = {
+    display = 0,
+    alignment = 'top_left',
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 2,
+    default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    double_buffer = true,
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+    extra_newline = false,
+    font = 'Arial:size=12',
+    gap_x = 40,
+    gap_y = 50,
+    minimum_height = 5,
+    minimum_width = 5,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_ncurses = false,
+    out_to_stderr = false,
+    out_to_x = true,
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'desktop',
+    own_window_transparent = true,
+    own_window_argb_visual = true,
+    show_graph_range = false,
+    show_graph_scale = true,
+    stippled_borders = 0,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+    use_xft = true,
+    color0 = 'grey',
+    color7 = 'red',
+    color8 = 'yellow',
+    color9 = 'green',
+    font1 = 'Arial:size=15:bold',
+    --template CPU $1=cpuN $2=cpuN+2 $3=N $4=N+1
+    template0 = [[${color0}\1:${color}${alignc}${offset 16}${freq_g \3} GHz${goto 200}${color0}\2:${alignr}${color1} ${freq_g \4} GHz
+${color0}Usage:${alignc}${offset 18}${color}${cpu \1}%${goto 200}${color0}Usage:${alignr}${color}${cpu \2}%
+${color}${cpugraph \1 30,180 00FF00 FF0000 -t }${goto 200}${cpugraph \2 30,180 00FF00 FF0000 -t }]],
+    --Prozesse Top10 template
+    template1 = [[${color} ${top name \1}${goto 150}${top pid \1}${goto 250}${top cpu \1}${goto 320}${top mem \1}]],
+ 
+
+}
+
+
+conky.text = [[
+${font1}${color grey}System Info${color}${font}
+${color0}Batterie:${alignc}\
+#IF ELSE für status Laden/Entladen
+${if_match "${battery_status}" == "discharging" }${color8}${else}${color9}${endif}${battery_status} ${battery_time}\
+#IF ELSE für prozent Farbe (>=50/grün|>=20/gelb|>=0/rot)
+${if_match ${battery_percent} >=50}${color9}\
+${else}${if_match ${battery_percent} >=20}${color8}\
+${else}${if_match ${battery_percent} >=0}${color7}${endif}${endif}\
+${endif}${alignr}${battery_percent}%${color}${font}
+${color0}Hostname:${color}${alignr}$nodename
+${color0}Linux:${color}${alignr}${exec lsb_release -d -s}
+${color0}Kernel:${color}${alignr}${kernel}
+${color0}Startzeit:${color}${alignr}${execi 5 who -b | awk -F' ' '{print $2 " " $3}'}
+${color0}Uptime:${color}${alignr}$uptime
+$hr
+#Alles CPU Informationen
+${color0}${font1}CPU${color}${font}
+#cpu1 und cpu2 (cpu0 sind alle CPU durchschnitt)
+${color0}Temperatur Core0: \
+${if_match ${execi 5 sensors|grep 'Core 0'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} <=60}${color9}\
+${else}${if_match ${execi 5 sensors|grep 'Core 0'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} <=79}${color8}\
+${else}${color7}${endif}${endif}${alignr}${execi 5 sensors|grep 'Core 0'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} °C${color}
+${template0 cpu1 cpu2 1 2}
+#CPU3 und CPU4
+${color0}Temperatur Core1: \
+${if_match ${execi 5 sensors|grep 'Core 1'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} <=60}${color9}\
+${else}${if_match ${execi 5 sensors|grep 'Core 1'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} <=79}${color8}\
+${else}${color7}${endif}${endif}${alignr}${execi 5 sensors|grep 'Core 1'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} °C${color}
+${template0 cpu3 cpu4 3 4}
+#CPU5 und CPU6
+${color0}Temperatur Core2: \
+${if_match ${execi 5 sensors|grep 'Core 2'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} <=60}${color9}\
+${else}${if_match ${execi 5 sensors|grep 'Core 2'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} <=79}${color8}\
+${else}${color7}${endif}${endif}${alignr}${execi 5 sensors|grep 'Core 2'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} °C${color}
+${template0 cpu5 cpu6 5 6}
+#CPU7 und CPU8
+${color0}Temperatur Core3: \
+${if_match ${execi 5 sensors|grep 'Core 3'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} <=60}${color9}\
+${else}${if_match ${execi 5 sensors|grep 'Core 3'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} <=79}${color8}\
+${else}${color7}${endif}${endif}${alignr}${execi 5 sensors|grep 'Core 3'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} °C${color}
+${template0 cpu7 cpu8 7 8}
+$hr
+#RAM
+${color0}${font1}RAM${color}${font}
+${alignr}${mem} / ${memavail}
+${memgraph 30,0 00FF00 00FF00 -t}
+$hr
+#Prozess Liste
+${color0}${font1}Prozess Info${color}${font}
+${template1 1}
+${template1 2}
+${template1 3}
+${template1 4}
+${template1 5}
+${template1 6}
+${template1 7}
+${template1 8}
+${template1 9}
+${template1 10}
+
+
+
+]]

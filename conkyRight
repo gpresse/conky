@@ -1,0 +1,82 @@
+-- Conky, a system monitor https://github.com/brndnmtthws/conky
+--
+-- This configuration file is Lua code. You can write code in here, and it will
+-- execute when Conky loads. You can use it to generate your own advanced
+-- configurations.
+--
+-- Try this (remove the `--`):
+--
+--   print("Loading Conky config")
+--
+-- For more on Lua, see:
+-- https://www.lua.org/pil/contents.html
+
+conky.config = {
+    display = 0,
+    alignment = 'top_right',
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 2,
+    default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    double_buffer = true,
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+    extra_newline = false,
+    font = 'Arial:size=12',
+    gap_x = 40,
+    gap_y = 50,
+    minimum_height = 5,
+    minimum_width = 400,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_ncurses = false,
+    out_to_stderr = false,
+    out_to_x = true,
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'desktop',
+    own_window_transparent = true,
+    own_window_argb_visual = true,
+    show_graph_range = false,
+    show_graph_scale = true,
+    stippled_borders = 0,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+    use_xft = true,
+    color0 = 'grey',
+    color7 = 'red',
+    color8 = 'yellow',
+    color9 = 'green',
+    font1 = 'Arial:size=15:bold',
+    template0 = [[${if_up \1}\1 ${alignr}IP ${addr \1}${if_match "${addr \1}" != "No Address"}
+Up [${totalup \1}]${alignr}${upspeed \1}
+${upspeedgraph \1 30,400 00FF00 FF0000 10 -l}
+Down [${totaldown \1}]${alignr}${downspeed \1}
+${downspeedgraph \1 30,400 00FF00 FF0000 10 -t -l}${endif}${else}\1${alignr}not connected${endif}
+${hr}]],
+    --Festplatten bzw devices anzeigen (df -h | grep '^/dev/')
+    template1 = [[${color0}\2${color}\n${fs_type \2}${alignr}${fs_used \2} / ${fs_size \2}${if_match ${fs_free_perc \2} >=10}${color9}
+${else}${if_match ${fs_free_perc \2} >=5}${color8}\
+${else}${color7}\
+${endif}${endif}${fs_bar 10 \2}${color}]],
+}
+
+
+conky.text = [[
+${color0}${font1}Netzwerk${color}${font}
+${execpi 60 cat /proc/net/dev | grep 'en' | cut --fields=-1 --delimiter=':' | sed 's/^/\$\{template0 /;s/$/\}/' }
+${execpi 60 cat /proc/net/dev | grep 'wlp' | cut --fields=-1 --delimiter=':' | sed 's/^/\$\{template0 /;s/$/\}/' }
+#$hr #hr is schon im template
+#Dateisystem
+${color0}${font1}Dateisystem${font}${color}
+${execpi 60 df -h --output=source,target | grep '^/dev/' | cut --characters=6- | sed 's/^/\$\{template1 /;s/$/\}/'}
+$hr
+
+
+]]
