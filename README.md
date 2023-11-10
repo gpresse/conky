@@ -1,5 +1,5 @@
 # conky Configuration
-#Conky Left Window
+<h4>Conky Left Window</h4>
 <img src="conkyLeft.png" alt="conkyLeft Screenshot" />
-#Conky Right Window
+<h4>Conky Right Window</h4>
 <img src="conkyRight.png" alt="conkyRight Screenshot" />
