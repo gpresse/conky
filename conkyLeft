@@ -16,7 +16,7 @@
 --
 
 conky.config = {
-    display = 0,
+    xinerama_head = 1,
     alignment = 'top_left',
     background = false,
     border_width = 1,
@@ -64,7 +64,7 @@ ${color0}Usage:${alignc}${offset 18}${color}${cpu \1}%${goto 200}${color0}Usage:
 ${color}${cpugraph \1 30,180 00FF00 FF0000 -t }${goto 200}${cpugraph \2 30,180 00FF00 FF0000 -t }]],
     --Prozesse Top10 template
     template1 = [[${color} ${top name \1}${goto 150}${top pid \1}${goto 250}${top cpu \1}${goto 320}${top mem \1}]],
- 
+
 
 }
 

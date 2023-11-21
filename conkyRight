@@ -17,7 +17,7 @@
 
 
 conky.config = {
-    display = 0,
+    xinerama_head = 1,
     alignment = 'top_right',
     background = false,
     border_width = 1,
